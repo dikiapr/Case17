@@ -22,9 +22,22 @@ public class ApplicationConfig {
         .build();
 
     var client = new MqttClient(prop.getBrokerAddress(), prop.getClientId());
-    client.connect(options);
+    System.out.println("Attempting to connect to MQTT broker");
+
+    try {
+      if (!client.isConnected()) {
+        client.connect(options);
+        System.out.println("Successfully connected to MQTT broker");
+      } else {
+        System.out.println("Client is already connected");
+      }
+    } catch (MqttException e) {
+      System.err.println("Connection failed: " + e.getMessage());
+      throw e;
+    }
 
     return client;
   }
+
 
 }

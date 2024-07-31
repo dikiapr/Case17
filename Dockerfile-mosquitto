@@ -1,0 +1,23 @@
+FROM ubuntu:20.04
+
+# Buat user non-root
+RUN useradd -ms /bin/bash appuser
+
+# Install Mosquitto serta klien
+RUN apt-get update && \
+    apt-get install -y mosquitto mosquitto-clients
+
+# Buat direktori kerja dan set hak akses
+WORKDIR /opt/app
+
+# Ubah kepemilikan direktori kerja
+RUN chown -R appuser:appuser /opt/app
+
+# Ganti ke user non-root
+USER appuser
+
+# Expose port untuk MQTT
+EXPOSE 1883
+
+# Jalankan broker Mosquitto
+CMD ["mosquitto", "-c", "/etc/mosquitto/mosquitto.conf"]
