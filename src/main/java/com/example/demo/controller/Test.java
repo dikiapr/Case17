@@ -19,13 +19,8 @@ public class Test {
 
   @PostMapping
   public void test() throws MqttException {
-    if (client.isConnected()) {
-      client.publish("test", new MqttMessage("Test".getBytes()));
-      System.out.println("Message published successfully");
-    } else {
-      System.err.println("Client is not connected");
-    }
-
+    client.publish("test", new MqttMessage("Test".getBytes()));
   }
 
 }
+
